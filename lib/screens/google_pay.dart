@@ -41,6 +41,7 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF211A2E),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF211A2E),
         elevation: 0,
         centerTitle: true,
         title: const Text(
