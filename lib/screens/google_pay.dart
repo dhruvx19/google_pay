@@ -20,12 +20,13 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => CardAlreadyAddedBottomSheet(
-        cardImage: selectedImage!,
-        onOkayPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+      builder:
+          (context) => CardAlreadyAddedBottomSheet(
+            cardImage: selectedImage!,
+            onOkayPressed: () {
+              Navigator.pop(context);
+            },
+          ),
     );
   }
 
@@ -38,50 +39,34 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF211A2E),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          "Add to Google Pay",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back, color: Colors.grey),
+        ),
+      ),
       body: Column(
         children: [
-          Container(
-            color: const Color(0xFF211A2E),
-            padding: const EdgeInsets.only(top: 30, bottom: 15),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(Icons.arrow_back, color: Colors.grey),
-                    ),
-                    const Expanded(
-                      child: Center(
-                        child: Text(
-                          "Add to Google Pay",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20), 
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
                 ),
               ),
               child: ListView(
@@ -133,7 +118,7 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
                     thickness: 8,
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: SizedBox(
-                      height: 300, 
+                      height: 300,
                       child: ListView(
                         controller: _scrollController,
                         scrollDirection: Axis.vertical,
