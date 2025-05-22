@@ -12,21 +12,57 @@ class GooglePayScreen extends StatefulWidget {
 class _GooglePayScreenState extends State<GooglePayScreen> {
   final ScrollController _scrollController = ScrollController();
   String? selectedImage;
+  int? selectedIndex;
+
+  final List<Map<String, String>> cards = [
+    {
+      "type": "Seminar expenses",
+      "number": "Physical ...3443",
+      "image": "assets/Small Cards.png",
+    },
+    {
+      "type": "Work related expense", 
+      "number": "Virtual ...3443",
+      "image": "assets/Small Cards pink.png",
+    },
+    {
+      "type": "Product Team",
+      "number": "Virtual ...3443", 
+      "image": "assets/Small Cards pink.png",
+    },
+    {
+      "type": "Seminar expenses",
+      "number": "Virtual ...3443",
+      "image": "assets/Small Cards pink.png",
+    },
+    {
+      "type": "Marketing Team",
+      "number": "Virtual ...2156",
+      "image": "assets/Small Cards.png",
+    },
+  ];
 
   void _showCardAlreadyAddedBottomSheet() {
-    if (selectedImage == null) return;
+    if (selectedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a card first'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder:
-          (context) => CardAlreadyAddedBottomSheet(
-            cardImage: selectedImage!,
-            onOkayPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+      builder: (context) => CardAlreadyAddedBottomSheet(
+        cardImage: selectedImage!,
+        onOkayPressed: () {
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 
@@ -95,7 +131,6 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 46),
                     child: Text(
@@ -109,7 +144,6 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
                     ),
                   ),
                   const SizedBox(height: 30),
-
                   RawScrollbar(
                     controller: _scrollController,
                     thumbVisibility: true,
@@ -120,76 +154,33 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: SizedBox(
                       height: 300,
-                      child: ListView(
+                      child: ListView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        children: [
-                          CardTile(
-                            type: "Seminar expenses",
-                            number: "Physical ...3443",
-                            image: 'assets/Small Cards.png',
-                            isSelected:
-                                selectedImage == 'assets/Small Cards.png',
-                            onTap: () {
-                              setState(() {
-                                selectedImage = 'assets/Small Cards.png';
-                              });
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CardTile(
-                            type: "Work related expense",
-                            number: "Virtual ...3443",
-                            image: 'assets/Small Cards pink.png',
-                            isSelected:
-                                selectedImage == 'assets/Small Cards pink.png',
-                            onTap: () {
-                              setState(() {
-                                selectedImage = 'assets/Small Cards pink.png';
-                              });
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CardTile(
-                            type: "Product Team",
-                            number: "Virtual ...3443",
-                            image: 'assets/Small Cards pink.png',
-                            isSelected:
-                                selectedImage == 'assets/Small Cards.png pink',
-                            onTap: () {
-                              setState(() {
-                                selectedImage = 'assets/Small Cards.png pink';
-                              });
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CardTile(
-                            type: "Seminar expenses",
-                            number: "Virtual ...3443",
-                            image: 'assets/Small Cards pink.png',
-                            onTap: () {
-                              setState(() {
-                                selectedImage = 'assets/Small Cards pink.png';
-                              });
-                            },
-                          ),
-                          CardTile(
-                            type: "Seminar expenses",
-                            number: "Virtual ...3443",
-                            image: 'assets/Small Cards pink.png',
-                            onTap: () {
-                              setState(() {
-                                selectedImage = 'assets/Small Cards pink.png';
-                              });
-                            },
-                          ),
-                        ],
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        itemCount: cards.length,
+                        itemBuilder: (context, index) {
+                          final card = cards[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: CardTile(
+                              type: card['type']!,
+                              number: card['number']!,
+                              image: card['image']!,
+                              isSelected: selectedIndex == index,
+                              onTap: () {
+                                setState(() {
+                                  selectedIndex = index;
+                                  selectedImage = card['image']!;
+                                });
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
                   const SizedBox(height: 40),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: GestureDetector(
@@ -197,7 +188,7 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
                       child: Container(
                         height: 55,
                         decoration: BoxDecoration(
-                          color: Colors.black,
+                          color:Colors.black,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Center(
@@ -225,7 +216,6 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
